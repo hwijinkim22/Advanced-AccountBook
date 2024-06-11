@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import Login from '../../pages/Login'
 import Register from '../../pages/Register'
+import { AuthProvider } from '../../context/AuthContext'
 
 const Router = () => {
   const [list, setList] = useState([
@@ -45,6 +46,7 @@ const Router = () => {
 
   return (
     <>
+  <AuthProvider>
     <BrowserRouter>
 			<Routes>
 				<Route path="/" element={<Home currentMonth={currentMonth} setCurrentMonth={setCurrentMonth} list={list} setList={setList}/>} />
@@ -53,6 +55,7 @@ const Router = () => {
         <Route path="/register" element={<Register/>} />
 			</Routes>
     </BrowserRouter>
+  </AuthProvider>
     </>
   )
 }

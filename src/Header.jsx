@@ -1,6 +1,44 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { AuthContext } from "./context/AuthContext";
+
+const HeaderContainer = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background-color: #4c4ff9;
+`;
+
+const Title = styled.h1`
+  a {
+    text-decoration: none;
+    color: black;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+`;
+
+const Nav = styled.nav`
+  display: flex;
+  gap: 20px;
+`;
+
+const NavLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+`;
+
+const Button = styled.button`
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+`;
 
 const Header = () => {
   const { isAuthenticated, logout } = useContext(AuthContext);
@@ -15,69 +53,21 @@ const Header = () => {
   };
 
   return (
-    <header
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "0 20px",
-        backgroundColor: "lightgray",
-      }}
-    >
-      <h1>
-        <Link
-          style={{
-            textDecoration: "none",
-            color: "black",
-            fontSize: "30px",
-            fontWeight: "bold",
-            cursor: "pointer",
-          }}
-          to="/"
-        >
-          가계부
-        </Link>
-      </h1>
-      <nav
-        style={{
-          display: "flex",
-          gap: "20px",
-        }}
-      >
+    <HeaderContainer>
+      <Title>
+        <Link to="/">가계부</Link>
+      </Title>
+      <Nav>
         {isAuthenticated ? (
-          <>
-            <button onClick={handleLogout}>Logout</button>
-          </>
+          <Button onClick={handleLogout}>Logout</Button>
         ) : (
           <>
-            <Link
-              style={{
-                textDecoration: "none",
-                color: "black",
-                fontSize: "20px",
-                fontWeight: "bold",
-                cursor: "pointer",
-              }}
-              to="/login"
-            >
-              Login
-            </Link>
-            <Link
-              style={{
-                textDecoration: "none",
-                color: "black",
-                fontSize: "20px",
-                fontWeight: "bold",
-                cursor: "pointer",
-              }}
-              to="/register"
-            >
-              Signup
-            </Link>
+            <NavLink to="/login">Login</NavLink>
+            <NavLink to="/register">Signup</NavLink>
           </>
         )}
-      </nav>
-    </header>
+      </Nav>
+    </HeaderContainer>
   );
 };
 

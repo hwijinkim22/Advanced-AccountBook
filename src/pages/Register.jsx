@@ -41,6 +41,7 @@ const Button = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  margin-top: 10px;
 
   &:hover {
     background-color: #0056b3;
@@ -96,6 +97,10 @@ const Register = () => {
     }
   };
 
+  const LoginPage = () => {
+    navigate("/login");
+  }
+
   return (
     <SignUpContainer>
       <Title>회원가입</Title>
@@ -134,6 +139,7 @@ const Register = () => {
           {errors.nickname && <ErrorMessage>{errors.nickname}</ErrorMessage>}
         </FormGroup>
         <Button type="submit">회원가입하기</Button>
+        <Button type="button" onClick={LoginPage} >로그인으로 돌아가기</Button>
       </form>
     </SignUpContainer>
   );

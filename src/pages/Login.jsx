@@ -1,7 +1,8 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { AuthContext } from '../context/AuthContext';
 
 const LoginContainer = styled.div`
   max-width: 400px;
@@ -52,6 +53,7 @@ const Login = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
 
   const RegisterPage = () => {
@@ -65,13 +67,17 @@ const Login = () => {
             id,
             password,
         });
-        const tokenId = response.data.token;
-        localStorage.getItem("token", tokenId);
+        console.log(response);
+
+        const tokenId = response.data.accessToken;
+        localStorage.setItem("token", tokenId);
+        login(tokenId);
         alert(`${response.data.nickname}님 환영합니다!`);
-        navigate("/login");
+        navigate("/");
     } 
     catch (error) {
-        
+        console.error("Login Error =>", error);
+        alert("올바르지 않은 정보입니다! 다시 시도해주세요.");
     }
   }
   return (
