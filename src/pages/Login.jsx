@@ -49,14 +49,10 @@ const Button = styled.button`
 `;
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-  };
 
   const RegisterPage = () => {
     navigate("/register");
@@ -87,8 +83,8 @@ const Login = () => {
           <Input
             type="text"
             id="id"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={id}
+            onChange={(e) => setId(e.target.value)}
             required
           />
         </FormGroup>
