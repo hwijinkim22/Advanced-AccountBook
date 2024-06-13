@@ -47,7 +47,7 @@ const List = ({ filteredList }) => {
           }}>
             <ItemHeader>{filter.date}</ItemHeader>
             <ItemDetails>
-              <span>{filter.item} - {filter.detail}</span>
+              <span>{filter.item} - {filter.detail}  (by {filter.createByNickName} )</span>
               <span>{filter.price.toLocaleString()}원</span>
             </ItemDetails>
           </ListItem>

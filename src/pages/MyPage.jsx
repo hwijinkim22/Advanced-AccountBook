@@ -1,6 +1,7 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components';
+import { AuthContext } from '../context/AuthContext';
 
 const MyPageContainer = styled.div`
   display: flex;
@@ -53,31 +54,31 @@ const Button = styled.button`
 
 
 const MyPage = () => {
-  const [userInfo, setUserInfo] = useState(null);
+  const {userInfo, getUserInfo} = useContext(AuthContext);
   const [avatar, setAvatar] = useState(null);
   const [nickname, setNickname] = useState("");
   
-  const getUserInfo = async () => {
-    try {
-    const accessToken = localStorage.getItem("accessToken");
-    if(accessToken) {
-      const response = await axios.get("https://moneyfulpublicpolicy.co.kr/user", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        }
-      });
-      setUserInfo(response.data);
-      console.log("유저 정보 =>", response.data);
-    }
-    else {
-      console.log("액세스 토큰 없음");
-    }
-    } catch (error) {
-      console.error("유저 정보 에러=>", error);
-    }
-  }
-
+  // const getUserInfo = async () => {
+  //   try {
+  //   const accessToken = localStorage.getItem("accessToken");
+  //   if(accessToken) {
+  //     const response = await axios.get("https://moneyfulpublicpolicy.co.kr/user", {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${accessToken}`,
+  //       }
+  //     });
+  //     setUserInfo(response.data);
+  //     console.log("유저 정보 =>", response.data);
+  //   }
+  //   else {
+  //     console.log("액세스 토큰 없음");
+  //   }
+  //   } catch (error) {
+  //     console.error("유저 정보 에러=>", error);
+  //   }
+  // }
+  console.log(userInfo);
   useEffect(() => {
     getUserInfo();
   },[]);
@@ -121,7 +122,7 @@ const MyPage = () => {
       {userInfo && (
         <UserInfoContainer>
           <p>아이디: {userInfo.id}</p>
-          <p>닉네임: {userInfo.nickname}</p>
+          <p>닉네임: {userInfo.nickname}</p> <button>닉네임 변경하기</button>
           <ProfileImage src={userInfo.avatar} alt="프로필 사진"/>
           <Input
           type="text"

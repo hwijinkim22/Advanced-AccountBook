@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import HeaderForm from "../components/HeaderForm";
 import Input from "../components/Input";
@@ -6,21 +6,22 @@ import DateInput from "../components/DateInput";
 import MonthForm from "../components/MonthForm";
 import AddButton from "../components/AddButton";
 import List from "../components/List";
-import { useNavigate } from "react-router-dom";
-import Header from "../components/Header";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
 
 const Home = ({ list, setList, currentMonth, setCurrentMonth }) => {
   const [item, setItem] = useState("");
   const [price, setPrice] = useState("");
   const [detail, setDetail] = useState("");
   const [date, setDate] = useState("");
-  const navigate = useNavigate();
+  const { isAuthenticated, getUserInfo, userInfo } = useContext(AuthContext);
 
-  const filteredList = list.filter((item) => {
-    return parseInt(item.date.split("-")[1]) === parseInt(currentMonth);
-  });
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
-  const handleAdd = (e) => {
+  const handleAdd = async (e) => {
     e.preventDefault();
     if (
       date.trim() === "" ||
@@ -32,13 +33,18 @@ const Home = ({ list, setList, currentMonth, setCurrentMonth }) => {
       return;
     }
 
+    
     const newList = {
-      id: uuidv4(),
+      createdBy: userInfo.id,
+      createByNickName: userInfo.nickname,
       item: item,
       price: Number(price),
       detail: detail,
       date: date,
     };
+    console.log(newList);
+    const postedList = await axios.post("http://localhost:4000/expenses", newList);
+    console.log(postedList);
 
     const updateList = [...list, newList];
     setList(updateList);
@@ -48,10 +54,16 @@ const Home = ({ list, setList, currentMonth, setCurrentMonth }) => {
     setDate("");
   };
 
+  const filteredList = list.filter((item) => {
+    return parseInt(item.date.split("-")[1]) === parseInt(currentMonth);
+  });
+
+
   return (
     <>
-      <Header/>
-      <HeaderForm onSubmit={handleAdd}>
+      {isAuthenticated ? (
+        <>
+        <HeaderForm onSubmit={handleAdd}>
         <DateInput date={date} setDate={setDate} />
         <Input
           date={date}
@@ -70,6 +82,11 @@ const Home = ({ list, setList, currentMonth, setCurrentMonth }) => {
         setCurrentMonth={setCurrentMonth}
       />
       <List filteredList={filteredList} />
+      </>
+      ) : (
+        <p>로그인이 필요합니다.</p>
+      )}
+      
     </>
   );
 };
