@@ -7,7 +7,7 @@ import MonthForm from "../components/MonthForm";
 import AddButton from "../components/AddButton";
 import List from "../components/List";
 import { useNavigate } from "react-router-dom";
-import Header from "../Header";
+import Header from "../components/Header";
 
 const Home = ({ list, setList, currentMonth, setCurrentMonth }) => {
   const [item, setItem] = useState("");
@@ -48,13 +48,6 @@ const Home = ({ list, setList, currentMonth, setCurrentMonth }) => {
     setDate("");
   };
 
-  const loginPage = () => {
-    navigate("/login")
-  }
-
-  const registerPage = () => {
-    navigate("/register");
-  }
   return (
     <>
       <Header/>

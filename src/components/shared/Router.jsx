@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from "../../pages/Home"
 import Detail from '../../pages/Detail'
@@ -6,9 +6,11 @@ import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import Login from '../../pages/Login'
 import Register from '../../pages/Register'
-import { AuthProvider } from '../../context/AuthContext'
+import { AuthContext, AuthProvider } from '../../context/AuthContext'
+import MyPage from '../../pages/MyPage'
 
 const Router = () => {
+  const {isAuthenticated} = useContext(AuthContext);
   const [list, setList] = useState([
     {
       id:uuidv4(),
@@ -49,10 +51,11 @@ const Router = () => {
   <AuthProvider>
     <BrowserRouter>
 			<Routes>
-				<Route path="/" element={<Home currentMonth={currentMonth} setCurrentMonth={setCurrentMonth} list={list} setList={setList}/>} />
+				<Route path="/" element={isAuthenticated ?<Home currentMonth={currentMonth} setCurrentMonth={setCurrentMonth} list={list} setList={setList}/> : <Login/>} />
         <Route path="/detail/:id" element={<Detail list={list} setList={setList}/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
+        <Route path="/user" element={isAuthenticated? <MyPage/> : <Login/>} />
 			</Routes>
     </BrowserRouter>
   </AuthProvider>

@@ -63,12 +63,10 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-        const response = await axios.post("https://moneyfulpublicpolicy.co.kr/login", {
+        const response = await axios.post("https://moneyfulpublicpolicy.co.kr/login?expiresIn=360m", {
             id,
             password,
         });
-        console.log(response);
-
         const tokenId = response.data.accessToken;
         localStorage.setItem("token", tokenId);
         login(tokenId);

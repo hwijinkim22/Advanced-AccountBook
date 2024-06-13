@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { AuthContext } from "./context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -59,7 +59,10 @@ const Header = () => {
       </Title>
       <Nav>
         {isAuthenticated ? (
+          <>
+          <NavLink to="/user">My Page</NavLink>
           <Button onClick={handleLogout}>Logout</Button>
+          </>
         ) : (
           <>
             <NavLink to="/login">Login</NavLink>
