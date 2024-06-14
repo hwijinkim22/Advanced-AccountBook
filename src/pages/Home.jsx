@@ -8,14 +8,15 @@ import AddButton from "../components/AddButton";
 import List from "../components/List";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import axios from "axios";
 
-const Home = ({ list, setList, currentMonth, setCurrentMonth }) => {
+
+
+const Home = ({ list, currentMonth, setCurrentMonth }) => {
   const [item, setItem] = useState("");
   const [price, setPrice] = useState("");
   const [detail, setDetail] = useState("");
   const [date, setDate] = useState("");
-  const { isAuthenticated, getUserInfo, userInfo } = useContext(AuthContext);
+  const { isAuthenticated, getUserInfo, userInfo, addMutation } = useContext(AuthContext);
 
   useEffect(() => {
     getUserInfo();
@@ -43,11 +44,9 @@ const Home = ({ list, setList, currentMonth, setCurrentMonth }) => {
       date: date,
     };
     console.log(newList);
-    const postedList = await axios.post("http://localhost:4000/expenses", newList);
-    console.log(postedList);
 
-    const updateList = [...list, newList];
-    setList(updateList);
+    addMutation.mutate(newList);
+
     setItem("");
     setPrice("");
     setDetail("");

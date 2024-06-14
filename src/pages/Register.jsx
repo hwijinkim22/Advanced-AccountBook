@@ -86,6 +86,7 @@ const Register = () => {
           password,
           nickname,
         });
+        console.log(response);
         const tokenId = response.data.token;
         localStorage.setItem("token", tokenId);
         alert("회원가입을 성공적으로 마쳤습니다!");

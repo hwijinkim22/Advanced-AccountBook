@@ -9,25 +9,52 @@ import { AuthContext, AuthProvider } from "../../context/AuthContext";
 import MyPage from "../../pages/MyPage";
 import axios from "axios";
 import Header from "../Header";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const Router = () => {
+  const [currentMonth, setCurrentMonth] = useState(
+    `${new Date().getMonth() + 1}`
+  );
   const { isAuthenticated } = useContext(AuthContext);
   const [list, setList] = useState([]);
 
-  useEffect(() => {
-    axios.get("http://localhost:4000/expenses")
-      .then(({ data }) => {
-        console.log(data);
-        setList(data);
-      })
-      .catch((error) => {
-        console.log("Error =>", error);
-      });
-  }, []);
+  const fetchExpenses = async () => {
+    const response = await axios.get("http://localhost:4000/expenses")
+    return response.data;
+  }
 
-    const [currentMonth, setCurrentMonth] = useState(
-    `${new Date().getMonth() + 1}`
-  );
+  const {data, isLoading, isError} = useQuery({
+    queryKey: ["expenses"],
+    queryFn: fetchExpenses,
+  });
+
+  useEffect(() => {
+    if(data) {
+      setList(data);
+    }
+  },[data]);
+  
+
+  if(isLoading) {
+    return <div>로딩 중입니다.</div>
+  }
+
+  if(isError) {
+    console.error("불러오는 중 오류 =>", isError);
+  }
+
+  // useEffect(() => {
+  //   axios.get("http://localhost:4000/expenses")
+  //     .then(({ data }) => {
+  //       console.log(data);
+  //       setList(data);
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error =>", error);
+  //     });
+  // }, []);
+
+
 
   return (
     <>

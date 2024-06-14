@@ -1,22 +1,11 @@
 {
   "expenses": [
     {
-      "id": "8d13",
-      "createdBy": "bout9396",
-      "createByNickName": "테스트2",
-      "item": "식비",
-      "price": 25000,
-      "detail": "족발",
-      "date": "2024-06-13"
-    },
-    {
-      "id": "112a",
-      "createdBy": "bout9396",
-      "createByNickName": "hjhjhj",
-      "item": "식비",
-      "price": 9000,
-      "detail": "국밥",
-      "date": "2024-06-13"
+      "item": "게임",
+      "price": 200000,
+      "detail": "게임",
+      "date": "2024-06-13",
+      "id": "ea02"
     }
   ]
 }
