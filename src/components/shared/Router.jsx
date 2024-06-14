@@ -19,7 +19,7 @@ const Router = () => {
   const [list, setList] = useState([]);
 
   const fetchExpenses = async () => {
-    const response = await axios.get("http://localhost:4000/expenses")
+    const response = await axios.get("https://excited-treasure-screen.glitch.me/expenses")
     return response.data;
   }
 

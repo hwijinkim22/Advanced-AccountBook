@@ -5,6 +5,9 @@ import React, { createContext, useState, useEffect } from "react";
 export const AuthContext = createContext();
 
 const token = localStorage.getItem("accessToken");
+const baseUrlOne = "https://moneyfulpublicpolicy.co.kr";
+const baseUrlTwo = "https://excited-treasure-screen.glitch.me";
+
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!token);
@@ -19,13 +22,14 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("accessToken");
     setIsAuthenticated(false);
+    setUserInfo(null);
   };
 
   const getUserInfo = async () => {
     try {
     const accessToken = localStorage.getItem("accessToken");
     if(accessToken) {
-      const response = await axios.get("https://moneyfulpublicpolicy.co.kr/user", {
+      const response = await axios.get(`${baseUrlOne}/user`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
@@ -43,7 +47,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   const addExpenses = async (newList) => {
-    const response = await axios.post("http://localhost:4000/expenses", newList);
+    const response = await axios.post(`${baseUrlTwo}/expenses`, newList);
     return response.data;
   };
 
@@ -55,7 +59,7 @@ export const AuthProvider = ({ children }) => {
   });
 
   const deleteExpenses = async (id) => {
-    const response = await axios.delete(`http://localhost:4000/expenses/${id}`);
+    const response = await axios.delete(`${baseUrlTwo}/expenses/${id}`);
     return response.data;
   };
   
@@ -71,7 +75,7 @@ export const AuthProvider = ({ children }) => {
     const { id,...rest } = updatedExpense;
     console.log(updatedExpense)
     try {
-      const response = await axios.put(`http://localhost:4000/expenses/${id}`,
+      const response = await axios.put(`${baseUrlTwo}/expenses/${id}`,
     rest
   );
   console.log(rest);
